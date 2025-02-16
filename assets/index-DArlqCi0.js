@@ -1,0 +1,14 @@
+(function(){const o=document.createElement("link").relList;if(o&&o.supports&&o.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))r(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const a of t.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&r(a)}).observe(document,{childList:!0,subtree:!0});function i(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function r(e){if(e.ep)return;e.ep=!0;const t=i(e);fetch(e.href,t)}})();document.addEventListener("DOMContentLoaded",()=>{const c=document.body,o=document.querySelector(".header"),i=document.querySelector(".header__wrapper"),r=document.querySelector(".header__mobile-menu"),e=document.querySelector(".header__mobile-root"),t=document.querySelector(".header__nav"),a=document.querySelector(".header__mobile-button"),d=document.querySelector(".header__buttons"),u=()=>{window.innerWidth<=1559?e.contains(t)||e.appendChild(t):e.contains(t)&&i.appendChild(t)},l=()=>{window.innerWidth<=767?r.contains(d)||e.appendChild(d):r.contains(d)&&o.appendChild(d)},n=s=>{s.classList.toggle("active"),c.classList.toggle("no-scroll")};u(),l(),a.addEventListener("click",()=>{n(r)}),window.addEventListener("resize",()=>{u(),l()})});document.addEventListener("DOMContentLoaded",()=>{const c=document.getElementById("cards-list"),o=document.getElementById("load-more");let i=0;const r=5,e=30,t=window.innerWidth>=768?10:7,a=n=>n.split(" ").slice(0,10).join(" "),d=n=>new Intl.DateTimeFormat("en-US",{month:"long",day:"numeric",year:"numeric"}).format(n);function u(n){const s=document.createElement("li");return s.className="card",s.innerHTML=`
+      <img class="card__image" src="https://picsum.photos/300/200?random=${Math.random()}" alt="Post image">
+      <div class="card__wrapper">
+        <h3 class="card__title">${n.title}</h3>
+        <p class="card__subtitle">${a(n.body)}</p>
+        <p class="card__descr">${n.body}</p>
+        <div class="card__info">
+          <span class="card__text">Posted by </span>
+          <span class="card__name">User ${n.userId}</span>
+          <span class="card__date">on ${d(new Date)}</span>
+        </div>
+        <a class="card__link" href="#" target="_blank" rel="noopener noreferrer">Continue reading</a>
+      </div>
+    `,s}async function l(n=!1){try{(await(await fetch(`https://jsonplaceholder.typicode.com/posts?_start=${i*r}&_limit=${n?t:r}`)).json()).forEach(m=>{c.children.length<e&&c.appendChild(u(m))}),i++,c.children.length>=e&&(o.disabled=!0)}catch(s){console.error("Ошибка загрузки:",s)}}o.addEventListener("click",()=>l()),l(!0)});
